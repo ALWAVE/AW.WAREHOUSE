@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A0646AAC-10AD-4D24-BFB5-8EE843C8FC27}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>AW.WAREHOUSE_PROJECT</RootNamespace>
+    <AssemblyName>AW.WAREHOUSE PROJECT</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bunifu.Licensing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f89b4760ba7dcb6b" />
+    <Reference Include="Bunifu.UI.WinForms.1.5.3">
+      <HintPath>D:\Bunifu_UI_WinForms_5.0.3 [PeskTop.com]\ui.winforms.5.0.3\Bunifu.UI.WinForms.1.5.3.dll</HintPath>
+    </Reference>
+    <Reference Include="Bunifu.UI.WinForms.BunifuTextBox">
+      <HintPath>D:\Bunifu_UI_WinForms_5.0.3 [PeskTop.com]\ui.winforms.5.0.3\Bunifu.UI.WinForms.BunifuTextBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Office.Interop.Word.15.0.4797.1004\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminPanel.Designer.cs">
+      <DependentUpon>AdminPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AuthorizationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthorizationForm.Designer.cs">
+      <DependentUpon>AuthorizationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BuyRoom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuyRoom.Designer.cs">
+      <DependentUpon>BuyRoom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreatingRoom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreatingRoom.Designer.cs">
+      <DependentUpon>CreatingRoom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DBconnection.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentByCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PaymentByCard.Designer.cs">
+      <DependentUpon>PaymentByCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrationForm.Designer.cs">
+      <DependentUpon>RegistrationForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AdminPanel.resx">
+      <DependentUpon>AdminPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AuthorizationForm.resx">
+      <DependentUpon>AuthorizationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuyRoom.resx">
+      <DependentUpon>BuyRoom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreatingRoom.resx">
+      <DependentUpon>CreatingRoom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PaymentByCard.resx">
+      <DependentUpon>PaymentByCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="RegistrationForm.resx">
+      <DependentUpon>RegistrationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ID Verified_400px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Verified Account_512px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_user_512px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\comedy_500px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\warehouse_480px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\400px-Hermit_Purple_DU_Infobox_Anime.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close_480px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\back_500px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Yard Sale_240px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\склад-20х30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\factory-illustration_126283-1201.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Manufacture-PNG-Transparent-HD-Photo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prize_500px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\giphy.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\200w.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\star_480px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\users_480px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Average Price_480px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh_512px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question_mark_512px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MasterCard_Logo.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mir_480px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\visa_240px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eye_480px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hide_480px.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

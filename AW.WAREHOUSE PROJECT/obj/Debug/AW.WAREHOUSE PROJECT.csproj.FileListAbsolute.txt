@@ -1,0 +1,65 @@
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.exe.config
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.exe
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.pdb
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.AssemblyReference.cache
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.SuggestedBindingRedirects.cache
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.CreatingRoom.resources
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.Form1.resources
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.Properties.Resources.resources
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.GenerateResource.cache
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.CoreCompileInputs.cache
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.exe
+C:\Users\all_local\Desktop\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.pdb
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.exe.config
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.exe
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.pdb
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.exe
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.pdb
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csprojAssemblyReference.cache
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.AuthorizationForm.resources
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.CreatingRoom.resources
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.Form1.resources
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.Properties.Resources.resources
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.RegistrationForm.resources
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.GenerateResource.cache
+F:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.CoreCompileInputs.cache
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.exe.config
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.exe
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.pdb
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.AuthorizationForm.resources
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.CreatingRoom.resources
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.Form1.resources
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.Properties.Resources.resources
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.RegistrationForm.resources
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.GenerateResource.cache
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.CoreCompileInputs.cache
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.exe
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.pdb
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.exe.config
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.exe
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\AW.WAREHOUSE PROJECT.pdb
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.AuthorizationForm.resources
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.BuyRoom.resources
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.CreatingRoom.resources
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.Form1.resources
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.Properties.Resources.resources
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.RegistrationForm.resources
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.GenerateResource.cache
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.CoreCompileInputs.cache
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.exe
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.pdb
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.AdminPanel.resources
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.AdminPanel.resources
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.BuyRoom.resources
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\Bunifu.UI.WinForms.1.5.3.dll
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\Bunifu.UI.WinForms.1.5.3.xml
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.CopyComplete
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.PaymentByCard.resources
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\Bunifu.UI.WinForms.BunifuTextBox.dll
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\Bunifu.UI.WinForms.BunifuTextBox.xml
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\Bunifu.UI.WinForms.1.5.3.xml
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\bin\Debug\Bunifu.UI.WinForms.BunifuTextBox.xml
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE_PROJECT.PaymentByCard.resources
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.CopyComplete
+D:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.AssemblyReference.cache
+G:\Учеба\Практика\Практика\AW.WAREHOUSE PROJECT\obj\Debug\AW.WAREHOUSE PROJECT.csproj.AssemblyReference.cache
