@@ -1,0 +1,1108 @@
+  SQL   DATA BASE
+use dbaw;
+
+create table registers(
+id_user int PRIMARY KEY identity(1,1) not null,
+login_user varchar(50) not null,
+role_user varchar(100) not null,
+password_user varchar(50) not null,
+isBanned BIT NOT NULL DEFAULT 0
+);
+insert into registers (login_user, password_user, role_user, isBanned) values ('admin', 'admin', 'admin', 0)
+
+CREATE TABLE premises(
+    id_premises int PRIMARY KEY IDENTITY(1,1) not null,
+    _type VARCHAR(100),
+    _adress VARCHAR(50),
+    _price VARCHAR(100),
+    id_seller VARCHAR(20),
+    seller_name VARCHAR(100),
+    _time VARCHAR(365)
+);
+
+CREATE TABLE purchases (
+    id_purchase int identity(1,1) not null,
+    id_user int,
+    id_premises int,
+    purchase_date datetime,
+    FOREIGN KEY (id_user) REFERENCES registers(id_user),
+    FOREIGN KEY (id_premises) REFERENCES premises(id_premises)
+);
+
+INSERT INTO purchases (id_user, id_premises, purchase_date) VALUES (1, 1, '2024-02-24');
+
+select * from premises;
+select * from purchases;
+select * from registers;
+
+drop table registers;
+drop table premises;
+drop table purchases;
+
+Windows Forms: Методы и формы
+Форма: Registration Forms
+    public partial class RegistrationForm : Form
+    {
+        public RegistrationForm()
+        {
+
+            InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
+        }
+
+        DBconnection dBConnection = new DBconnection();
+
+        private Boolean checkuser()
+        {
+            var loginUser = textBox1.Text;
+            var passUser = textBox2.Text;
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            DataTable table = new DataTable();
+            string querystring = $"select id_user from registers where login_user = @loginUser";
+            SqlCommand command = new SqlCommand(querystring, dBConnection.getConnection());
+            command.Parameters.AddWithValue("@loginUser", loginUser); 
+
+            adapter.SelectCommand = command;
+            adapter.Fill(table);
+
+            if (table.Rows.Count > 0)
+            {
+                MessageBox.Show("Пользователь с таким логином уже существует!");
+                return true;
+            }
+            else
+            {
+
+                return false; 
+            }
+        }
+        private Boolean checkLoginLength(string login)
+        {
+            if (login.Length < 5)
+            {
+                MessageBox.Show("Логин должен состоять как минимум из 5 символов!");
+                return false;
+            }
+            return true;
+        }
+        private Boolean checkPasswordLength(string password)
+        {
+            if (password.Length < 5)
+            {
+                MessageBox.Show("Пароль должен состоять как минимум из 5 символов!");
+                return false;
+            }
+            return true;
+        }
+
+
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            AuthorizationForm auth = new AuthorizationForm();
+            this.Hide();
+            auth.Show();
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            bool isBanned = false;
+            var login = textBox1.Text;
+            var password = textBox2.Text;
+            string user_role = comboBox1.Items[comboBox1.SelectedIndex].ToString();
+            string querystring = $"insert into registers(login_user,role_user, password_user, isBanned) values('{login}','{user_role}','{password}', {(isBanned ? 1 : 0)})";
+            if (!checkLoginLength(login))
+            {
+                return; // Если длина логина недостаточна, прекращаем выполнение метода
+            }
+            if(!checkPasswordLength(password))
+            {
+                return;
+            }
+            SqlCommand command = new SqlCommand(querystring, dBConnection.getConnection());
+
+            dBConnection.openConnection();
+            if (checkuser())
+
+            {
+                return;
+            }
+
+            if (command.ExecuteNonQuery() == 1)
+            {
+                MessageBox.Show("Аккаунт успешно создан!", "Успешное создание!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                AuthorizationForm authorization = new AuthorizationForm();
+                this.Hide();
+                
+                authorization.ShowDialog();
+
+            }
+            else
+            {
+                MessageBox.Show("Аккаунт не создан!");
+            }
+
+            dBConnection.closeConnection();
+        }
+
+Форма: Autorization Forms
+  public partial class AuthorizationForm : Form
+    {
+
+        DBconnection dbConnection = new DBconnection();
+        public delegate void CloseDelegate();
+        public CloseDelegate CloseEvent;
+
+
+        public AuthorizationForm()
+        {
+            InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
+            CloseEvent = null;
+            label3.Visible = false;
+            textBox2.UseSystemPasswordChar = true;
+        }
+
+        private bool checkUserIsBanned()
+        {
+            var loginUser = textBox1.Text;
+
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            DataTable table = new DataTable();
+            string querystring = $"select isBanned from registers where login_user = @loginUser";
+            SqlCommand command = new SqlCommand(querystring, dbConnection.getConnection());
+            command.Parameters.AddWithValue("@loginUser", loginUser);
+
+            adapter.SelectCommand = command;
+            adapter.Fill(table);
+
+            if (table.Rows.Count > 0)
+            {
+                // Получаем значение isBanned
+                bool isBanned = (bool)table.Rows[0]["isBanned"];
+
+                // Возвращаем true, если пользователь забанен
+                if (isBanned)
+                {
+                    MessageBox.Show("Проблема, ваш аккаунт был заблокирован, если ошибка свяжитесь с админом +7999111111");
+                    linkLabel1.Visible = false;
+                    button1.Visible = false;
+                    label3.Visible = true;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                // Пользователь не найден в базе данных
+                MessageBox.Show("Пользователь не найден");
+                return false;
+            }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            var loginUser = textBox1.Text;
+            var passUser = textBox2.Text;
+            
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            DataTable table = new DataTable();
+
+            string querystring = $"select id_user, login_user, password_user from registers where login_user = '{loginUser}' and password_user = '{passUser}'";
+            
+            SqlCommand command = new SqlCommand(querystring, dbConnection.getConnection());
+
+            adapter.SelectCommand = command;
+            adapter.Fill(table);
+
+
+            bool isBanned = checkUserIsBanned();
+
+            if (!isBanned)
+            {
+                if (table.Rows.Count == 1)
+                {
+                    MessageBox.Show("Вы успешно вошли!", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    Form1 menu = new Form1(textBox1.Text);
+                    
+                    this.Hide();
+
+                    menu.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Увы.. Братец или Сестренка такого аккаунта не существует!", "Акаунта не существует!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Вы были забанены!", "Аккаунт забанен!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            RegistrationForm reg = new RegistrationForm();
+            this.Hide();
+            reg.ShowDialog();
+            this.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void CloseEye_Click(object sender, EventArgs e)
+        {
+            textBox2.UseSystemPasswordChar = true;
+            OpenEye.Visible = true;
+            CloseEye.Visible = false;
+        }
+
+        private void OpenEye_Click(object sender, EventArgs e)
+        {
+            textBox2.UseSystemPasswordChar = false;
+            CloseEye.Visible = true;
+            OpenEye.Visible = false;
+        }
+
+    }
+
+
+
+КЛАСС: DBCONNECTION
+  class DBconnection
+    {
+        SqlConnection sqlConnection = new SqlConnection(@"Data Source = DESKTOP-MDEIOL4; Initial Catalog = dbaw; Integrated Security = True");
+
+        public void openConnection()
+        {
+            if (sqlConnection.State == System.Data.ConnectionState.Closed)
+            {
+                sqlConnection.Open();
+            }
+        }
+
+        public void closeConnection()
+        {
+            if (sqlConnection.State == System.Data.ConnectionState.Closed)
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        public SqlConnection getConnection()
+        {
+            return sqlConnection;
+        }
+    }
+ФОРМА: ADMIN PANEL
+    public partial class AdminPanel : Form
+    {
+
+        DBconnection dBConnection = new DBconnection();
+
+        private void LoadData()
+        {
+            dataGridView1.Columns.Add("id_user", "Id пользователя");
+            dataGridView1.Columns.Add("login_user", "Имя пользователя");
+            dataGridView1.Columns.Add("role_user", "Роль пользователя");
+            dataGridView1.Columns.Add("isBanned", "Блокировка");
+        }
+        private void ReadSingleRow(DataGridView dgw, IDataRecord record)
+        {
+            dgw.Rows.Add(record.GetInt32(0), record.GetString(1), record.GetString(2), Convert.ToBoolean(record["isBanned"]));
+
+        }
+        private void RefreshDataGrid(DataGridView dgw)
+        {
+            dgw.Rows.Clear();
+
+            string queryString = "select * from registers";
+
+            SqlCommand command = new SqlCommand(queryString, dBConnection.getConnection());
+
+            dBConnection.openConnection();
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                ReadSingleRow(dgw, reader);
+            }
+            reader.Close();
+
+        }
+        public AdminPanel()
+        {
+            InitializeComponent();
+            LoadData();
+            RefreshDataGrid(dataGridView1);
+        }
+
+        private void Banned()
+        {
+            int selectedRowIndex = dataGridView1.CurrentCell.RowIndex;
+            string role = dataGridView1.Rows[selectedRowIndex].Cells["role_user"].Value.ToString();
+            if (role == "admin")
+            {
+                MessageBox.Show("Администратора нельзя забанить!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            bool isBanned = true;
+            string querystring = $"update registers set isBanned = {(isBanned ? 1 : 0)} where id_user = {dataGridView1.Rows[selectedRowIndex].Cells["id_user"].Value}";
+            SqlCommand command = new SqlCommand(querystring, dBConnection.getConnection());
+            command.ExecuteNonQuery();
+            MessageBox.Show("Вы успешно заблокировали пользователя!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            RefreshDataGrid(dataGridView1);
+        }
+        private void unBanned()
+        {
+            int selectedRowIndex = dataGridView1.CurrentCell.RowIndex;
+            bool isBanned = false;
+         
+            string querystring = $"update registers set isBanned = {(isBanned ? 1 : 0)} where id_user = {dataGridView1.Rows[selectedRowIndex].Cells["id_user"].Value}";
+            SqlCommand command = new SqlCommand(querystring, dBConnection.getConnection());
+            command.ExecuteNonQuery();
+            MessageBox.Show("Вы успешно разблокировали пользователя!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RefreshDataGrid(dataGridView1);
+        }
+ФОРМА: FORM 1 MAIN
+    public partial class Form1 : Form
+    {
+        DBconnection dBConnection = new DBconnection();
+
+
+
+        public Form1(string username1) : this()
+        {
+            string querystring = $"select id_user, role_user from registers where login_user = '{username1}'";
+          
+
+            using (SqlConnection connection = dBConnection.getConnection())
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(querystring, connection);
+
+                username.Text = username1;
+             
+          
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        string userID = reader["id_user"].ToString();
+                        string userRole = reader["role_user"].ToString();
+
+                        userid.Text = userID;
+                        userole.Text = userRole;
+                       
+                        if (userRole == "seller")
+                        {
+                            MessageBox.Show("Вы успешно вошли как Покупатель", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            button3.Visible = true;
+                            button1.Visible = false;
+                            button4.Visible = false;
+                        }
+                        else if (userRole == "suplier")
+                        {
+                            MessageBox.Show("Вы успешно вошли как Продавец", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            button3.Visible = false;
+                            button1.Visible = true;
+                            button4.Visible = false;
+                        }
+                        else if (userRole == "admin")
+                        {
+                            MessageBox.Show("Вы успешно вошли как Администратор", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        
+
+                    }
+                    dBConnection.closeConnection();
+                }
+                //LoadData();
+                //RefreshDataGrid(dataGridView1);
+            }
+        }
+
+        public Form1()
+        {
+            InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
+            
+        }
+
+        private void Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            CreatingRoom creatingRoom = new CreatingRoom(username.Text, userid.Text);
+            creatingRoom.Show();
+                
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            BuyRoom buyRoom = new BuyRoom(username.Text, userid.Text);
+
+            buyRoom.Show();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //LoadData();
+         
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            AdminPanel adminPanel = new AdminPanel();
+            adminPanel.Show();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            AuthorizationForm authorizationForm = new AuthorizationForm();
+            
+            authorizationForm.Show();
+        }
+FORMS CREATING ROOM
+    public partial class CreatingRoom : Form
+    {
+        private string currentUserName;
+        private string currentUserId;
+        public CreatingRoom(string username, string userid) : this()
+        {
+            currentUserName = username;
+            currentUserId = userid;
+            if(currentUserName == "admin")
+            {
+                button4.Visible = true;
+            }
+        }
+
+        public CreatingRoom() 
+        {
+            InitializeComponent();
+            LoadData();
+            RefreshDataGrid(dataGridView1);
+        }
+
+        DBconnection dBConnection = new DBconnection();
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string typePremises = comboBox1.Items[comboBox1.SelectedIndex].ToString();
+            var adress = textBox1.Text;
+            var price = textBox2.Text;
+            int time;
+            if (!int.TryParse(textBox3.Text, out time))
+            {
+                MessageBox.Show("Некорректное значение времени.");
+                return;
+            }
+            if (time > 365)
+            {
+                MessageBox.Show("Срок не может превышать 365 дней.");
+                return;
+            }
+
+            if (!IsDigitsOnly(textBox2.Text))
+            {
+                MessageBox.Show("В поле \"Цена\" можно вводить только цифры и десятичную точку.");
+                return;
+            }
+            else if (!IsDigitsOnlyForTime(textBox3.Text))
+            {
+                MessageBox.Show("В поле \"Срок\" можно вводить только цифры.");
+                return;
+            }
+            
+            string querystring = "INSERT INTO premises(_type, _adress, _price, id_seller, seller_name, _time) VALUES (@type, @adress, @price, @id_seller, @seller_name, @time)";
+
+
+            using (SqlCommand command = new SqlCommand(querystring, dBConnection.getConnection()))
+            {
+                
+                command.Parameters.AddWithValue("@type", typePremises);
+                command.Parameters.AddWithValue("@adress", adress);
+                command.Parameters.AddWithValue("@price", price + " руб");
+                command.Parameters.AddWithValue("@id_seller", currentUserId);
+                command.Parameters.AddWithValue("@seller_name", currentUserName);
+                command.Parameters.AddWithValue("@time", time + " дней(ня)");
+
+                dBConnection.openConnection();
+
+                // Выполнение запроса
+                command.ExecuteNonQuery();
+
+                dBConnection.closeConnection();
+            }
+
+           
+            MessageBox.Show("Данные успешно добавлены в базу данных!");
+        }
+        private bool IsDigitsOnly(string input)
+        {
+            Regex regex = new Regex(@"^\d+(\.\d+)?$");
+            return regex.IsMatch(input);
+        }
+        private bool IsDigitsOnlyForTime(string input)
+        {
+            Regex regex = new Regex(@"^[0-9]{1,3}$");
+            return regex.IsMatch(input);
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+        private void LoadData()
+        {
+            dataGridView1.Columns.Add("id_premises", "Id помещения");
+            dataGridView1.Columns.Add("_type", "Тип Цеха");
+            dataGridView1.Columns.Add("_adress", "Адресс цеха");
+            dataGridView1.Columns.Add("_price", "Цена цеха");
+            dataGridView1.Columns.Add("id_seller", "Id продавца");
+            dataGridView1.Columns.Add("seller_name", "Имя продавца");
+            dataGridView1.Columns.Add("_time", "Срок в днях");
+        }
+        private void ReadSingleRow(DataGridView dgw, IDataRecord record)
+        {
+            dgw.Rows.Add(record.GetInt32(0), record.GetString(1), record.GetString(2), record.GetString(3), record.GetString(4), record.GetString(5), record.GetString(6) /*RowState.ModifiedNew*/);
+
+        }
+        private void RefreshDataGrid(DataGridView dgw)
+        {
+            dgw.Rows.Clear();
+
+            string queryString = "select * from premises";
+
+            SqlCommand command = new SqlCommand(queryString, dBConnection.getConnection());
+
+            dBConnection.openConnection();
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                ReadSingleRow(dgw, reader);
+            }
+            reader.Close();
+
+            //dBConnection.closeConnection();
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            RefreshDataGrid(dataGridView1);
+        }
+
+        private void textBox3_MouseHover(object sender, EventArgs e)
+        {
+            label6.Visible = true;
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_MouseLeave(object sender, EventArgs e)
+        {
+            label6.Visible = false;
+        }
+        private void DeleteRowFromPremises(int premisesId)
+        {
+            string querystring = "DELETE FROM premises WHERE id_premises = @premisesId";
+
+            using (SqlCommand command = new SqlCommand(querystring, dBConnection.getConnection()))
+            {
+                command.Parameters.AddWithValue("@premisesId", premisesId);
+
+                dBConnection.openConnection();
+
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    MessageBox.Show("Строка успешно удалена из базы данных!");
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка при удалении строки из базы данных!");
+                }
+
+                dBConnection.closeConnection();
+            }
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int premisesId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["id_premises"].Value);
+                DeleteRowFromPremises(premisesId);
+                RefreshDataGrid(dataGridView1);
+            }
+            else
+            {
+                MessageBox.Show("Выберите строку для удаления!");
+            }
+        }
+    }
+ФОРМА: BUY ROOM
+    public partial class BuyRoom : Form
+    {
+        DBconnection dBConnection = new DBconnection();
+        private string currentUserName;
+        private string currentUserId;
+
+
+        public BuyRoom()
+        {
+            InitializeComponent();
+            LoadDataPremises();
+            RefreshDataGrid(dataGridView1, dataGridView2);
+           
+        }
+
+
+        public BuyRoom(string username, string userid) : this()
+        {
+            currentUserName = username;
+            currentUserId = userid;
+            
+        }
+
+
+        private void LoadDataPremises()
+        {
+            dataGridView1.Columns.Add("id_premises", "Id помещения");
+            dataGridView1.Columns.Add("_type", "Тип Цеха");
+            dataGridView1.Columns.Add("_adress", "Адресс цеха");
+            dataGridView1.Columns.Add("_price", "Цена цеха");
+            dataGridView1.Columns.Add("id_seller", "Id продавца");
+            dataGridView1.Columns.Add("seller_name", "Имя продавца");
+            dataGridView1.Columns.Add("_time", "Срок в днях");
+
+            dataGridView2.Columns.Add("id_purchase", "ID Покупки");
+            dataGridView2.Columns.Add("id_user", "ID Покупателя");
+            dataGridView2.Columns.Add("id_premises", "ID Помещения");
+            dataGridView2.Columns.Add("purchase_date", "Дата Покупки");
+        }
+        private void ReadSingleRow(DataGridView dgw, IDataRecord record)
+        {
+            dgw.Rows.Add(record.GetInt32(0), record.GetString(1), record.GetString(2), record.GetString(3), record.GetString(4), record.GetString(5), record.GetString(6) /*RowState.ModifiedNew*/);
+
+
+        }
+        private void ReadSingleRowPurchase(DataGridView dgw1, IDataRecord record)
+        {
+            dgw1.Rows.Add(record.GetInt32(0), record.GetInt32(1), record.GetInt32(2), record.GetDateTime(3)/*RowState.ModifiedNew*/);
+        }
+       
+        private void RefreshDataGrid(DataGridView dgw, DataGridView dgw1)
+        {
+            dgw.Rows.Clear();
+
+            string queryString = "select * from premises";
+             
+            SqlCommand command = new SqlCommand(queryString, dBConnection.getConnection());
+
+            dBConnection.openConnection();
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                ReadSingleRow(dgw, reader);
+            }
+            reader.Close();
+
+            dgw1.Rows.Clear();
+            string queryStrings = "select * from purchases";
+            SqlCommand commands = new SqlCommand(queryStrings, dBConnection.getConnection());
+            dBConnection.openConnection();
+            SqlDataReader readers = commands.ExecuteReader();
+
+            while (readers.Read())
+            {
+                ReadSingleRowPurchase(dgw1, readers);
+            }
+            readers.Close();
+        }
+      
+        
+       
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+           
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+
+            int saleId;
+
+            string querystring = "INSERT INTO purchases (id_user, id_premises, purchase_date) VALUES (@id_user, @id_premises, @purchase_date)";
+            using (SqlCommand command = new SqlCommand(querystring, dBConnection.getConnection()))
+            {
+                
+                dBConnection.openConnection();
+               
+    
+                int selectedRowIndex = dataGridView1.CurrentCell.RowIndex;
+
+                string currentPrice = dataGridView1.Rows[selectedRowIndex].Cells["_price"].Value.ToString();
+                string time = dataGridView1.Rows[selectedRowIndex].Cells["_time"].Value != null ? dataGridView1.Rows[selectedRowIndex].Cells["_time"].Value.ToString() : string.Empty;
+                string sellerName = dataGridView1.Rows[selectedRowIndex].Cells["seller_name"].Value != null ? dataGridView1.Rows[selectedRowIndex].Cells["seller_name"].Value.ToString() : string.Empty;
+                string idSellerName = dataGridView1.Rows[selectedRowIndex].Cells["id_seller"].Value != null ? dataGridView1.Rows[selectedRowIndex].Cells["id_seller"].Value.ToString() : string.Empty;   
+                string typePremises = dataGridView1.Rows[selectedRowIndex].Cells["_type"].Value != null ? dataGridView1.Rows[selectedRowIndex].Cells["_type"].Value.ToString() : string.Empty;
+                string address = dataGridView1.Rows[selectedRowIndex].Cells["_adress"].Value != null ? dataGridView1.Rows[selectedRowIndex].Cells["_adress"].Value.ToString() : string.Empty;
+
+            
+           
+
+                // Отображаем форму PaymentByCard в диалоговом режиме
+             
+                command.Parameters.AddWithValue("@id_user", currentUserId);
+                command.Parameters.AddWithValue("@id_premises", dataGridView1.Rows[selectedRowIndex].Cells["id_premises"].Value);
+                command.Parameters.AddWithValue("@purchase_date", DateTime.Now);
+
+                
+                saleId = command.ExecuteNonQuery();
+                //saleId = Convert.ToInt32(command.ExecuteScalar());
+                PaymentByCard paymentByCard = new PaymentByCard(
+
+                     time,
+                     saleId,
+                     idSellerName,
+                     currentUserId,
+                     currentPrice,
+                     sellerName,
+                     typePremises,
+                     address
+                 );
+                paymentByCard.ShowDialog();
+                
+                dBConnection.closeConnection();
+                //MessageBox.Show("Вы успешно приобрели помещение! Приятного пользования!");
+            }
+            }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            RefreshDataGrid(dataGridView1, dataGridView2);
+        }
+    }
+
+ФОРМА: PAYMNET BY CARD
+    public partial class PaymentByCard : Form
+    {
+        private string currentTime;
+        private int currentIdPurchase;
+        private string currentIdSeller;
+        private string currentIdUser;
+        private string currentPrice;
+        private string currentSellerName;
+        private string currentTypePremises;
+        private string currentAdress;
+
+        public PaymentByCard()
+        {
+            InitializeComponent();
+            InitializeTextBoxPlaceholders();
+        }
+        public PaymentByCard(string time, int id_purchase, string id_seller, string userid, string price, string seller_name, string type_premises, string _adress) : this()
+        {
+            currentTime = time;
+            currentIdPurchase = id_purchase;
+            currentIdSeller = id_seller;
+            currentIdUser = userid;
+            currentPrice = price;
+
+            currentSellerName = seller_name;
+            currentTypePremises = type_premises;
+            currentAdress = _adress;
+        }
+        private void InitializeTextBoxPlaceholders()
+        {
+            AddPlaceholderText(textNumberCard, "XXXXX XXXX XXXX XXXX");
+            AddPlaceholderText(textTern1, "XX ");
+            AddPlaceholderText(textTern2, "XX ");
+            AddPlaceholderText(textName, "XXXXXXXXXXX XXXXXXXXXXXX");
+            AddPlaceholderText(textCvv, "123 ");
+
+
+            textNumberCard.GotFocus += new EventHandler(RemoveText);
+            textNumberCard.LostFocus += new EventHandler(AddText);
+            textTern1.GotFocus += new EventHandler(RemoveText);
+            textTern1.LostFocus += new EventHandler(AddText);
+            textTern2.GotFocus += new EventHandler(RemoveText);
+            textTern2.LostFocus += new EventHandler(AddText);
+            textName.GotFocus += new EventHandler(RemoveText);
+            textName.LostFocus += new EventHandler(AddText);
+            textCvv.GotFocus += new EventHandler(RemoveText);
+            textCvv.LostFocus += new EventHandler(AddText);
+
+
+        }
+        private void AddPlaceholderText(TextBox textBox, string placeholder)
+        {
+            textBox.Text = placeholder;
+            textBox.Tag = placeholder;
+
+            textBox.ForeColor = Color.Gray;
+
+            textBox.TextChanged += (sender, e) =>
+            {
+                if (textBox.Text.Length == placeholder.Length)
+                {
+                    if (!IsFormatValid(textBox.Text, placeholder))
+                    {
+                        textBox.ForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        textBox.ForeColor = Color.Black;
+                    }
+                }
+                else if (textBox.Text.Length < placeholder.Length)
+                {
+                    textBox.ForeColor = Color.Gray;
+                }
+            };
+
+            textBox.KeyPress += (sender, e) =>
+            {
+                if (char.IsDigit(e.KeyChar) || e.KeyChar == '\b')
+                {
+                    if (textBox == textNumberCard)
+                    {
+                        // Если введено четыре цифры, добавляем пробел
+                        if (textBox.Text.Length == 4 || textBox.Text.Length == 9 || textBox.Text.Length == 14)
+                        {
+                            textBox.Text += " ";
+                            textBox.SelectionStart = textBox.Text.Length;
+                        }
+                        e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == '\b');
+                    }
+                    else if (textBox == textTern1 || textBox == textTern2)
+                    {
+                        e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == '\b');
+                    }
+                    else if (textBox == textCvv)
+                    {
+                        e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == '\b');
+                    }
+                }
+                else if (textBox == textName)
+                {
+                    // Разрешаем ввод только букв и пробелов
+                    e.Handled = !(char.IsLetter(e.KeyChar) || e.KeyChar == ' ' || e.KeyChar == '\b');
+                }
+                else
+                {
+                    e.Handled = true;
+                }
+            };
+        }
+
+        private bool IsFormatValid(string text, string placeholder)
+        {
+            text = text.Replace(" ", "");
+
+            if (placeholder == "XXXX XXXX XXXX XXXX")
+            {
+                string regexPattern = @"^\d{16}$"; // Ожидаем 16 цифр
+                return Regex.IsMatch(text, regexPattern);
+            }
+            else if (placeholder == "XX")
+            {
+                string regexPattern = @"^\d{1,2}$"; // Ожидаем не больше двух цифр
+                return Regex.IsMatch(text, regexPattern);
+            }
+            else if (placeholder == "ИВАН ИВАНОВИЧ")
+            {
+                string regexPattern = @"^[А-Яа-я\s]+$"; // Ожидаем только буквы и пробелы
+                return Regex.IsMatch(text, regexPattern);
+            }
+            else if (placeholder == "123")
+            {
+                string regexPattern = @"^\d{1,3}$";
+                return Regex.IsMatch(text, regexPattern);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+    private void RemoveText(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (textBox.Text == textBox.Tag.ToString())
+            {
+                textBox.Text = "";
+            }
+        }
+
+        private void AddText(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+                textBox.Text = textBox.Tag.ToString();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+        private bool IsAllDataValid()
+        {
+
+            if (textNumberCard.ForeColor == Color.Red)
+            {
+                MessageBox.Show("Вы ввели поле с номером карты не правильно!");
+                return false;
+            }
+            else if (textTern1.ForeColor == Color.Red || textTern2.ForeColor == Color.Red)
+            {
+                MessageBox.Show("Вы ввели поле с датой не правильно!");
+                return false;
+            }
+            else if (textName.ForeColor == Color.Red)
+            {
+                MessageBox.Show("Вы ввели поле с вашем именем не правильно!");
+                return false;
+            }
+            else if (textCvv.ForeColor == Color.Red)
+            {
+                MessageBox.Show("Вы ввели поле с 3-ех значным кодом не правильно!");
+                return false;
+            }
+            else
+            {
+                return true; 
+            }
+
+        }
+        private void btn_Buy_Click(object sender, EventArgs e)
+        {
+
+            if (!IsAllDataValid())
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля корректно перед покупкой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show("Вы успешно приобрели помещение! Приятного пользования!");
+            this.Hide();
+
+            string inputFilePath = $@"{System.Windows.Forms.Application.StartupPath}\Receipt\Example.docx";
+            string outputFilePath = $@"{System.Windows.Forms.Application.StartupPath}\Receipt\receipt {DateTime.Now.ToString("dd-mm-yyyy hh-mm-ss")}.pdf";
+
+            var replacements = new System.Collections.Generic.Dictionary<string, string>
+            {
+                {"<textName>", $"{textName.Text}"},
+                {"<textNumberCard>", $"{textNumberCard.Text}"},
+                {"<dataGridView>", $"{DateTime.Now}"},
+                {"<id_purchase>", $"{currentIdPurchase}"},
+                {"<_type>", $"{currentTypePremises}"},
+                {"<_price>", $"{currentPrice}"},
+                {"<seller_name>", $"{currentSellerName}"},
+                {"<_adress>", $"{currentAdress}"},
+                {"<_time>", $"{currentTime}"},
+                {"<id_seller>", $"{currentIdSeller}"},
+                {"<id_user>", $"{currentIdUser}"},
+
+
+            };
+            if(ReplaceTags(inputFilePath,outputFilePath,replacements) == true)
+            {
+                MessageBox.Show("Чек успешно сформирован", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        public static bool ReplaceTags(string inputFilePath, string outputFilePath, Dictionary<string, string> replacements)
+        {
+            Application wordApp = new Application();
+
+            try
+            {
+                Document doc = wordApp.Documents.Open(inputFilePath, ReadOnly: true);
+                Range range = doc.Content;
+                Document newDoc = wordApp.Documents.Add();
+                range.Copy();
+                newDoc.Range().Paste();
+
+                foreach (var replacement in replacements)
+                {
+                    newDoc.Content.Find.Execute(FindText: replacement.Key, ReplaceWith: replacement.Value, Replace: WdReplace.wdReplaceAll);
+                }
+                newDoc.SaveAs2(outputFilePath, WdSaveFormat.wdFormatPDF);
+                newDoc.Close(SaveChanges: false);
+                Process.Start(outputFilePath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при формировании чека: " + ex.Message, "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+                
+            }
+            finally
+            {
+                wordApp.Quit();
+            }
+
+        }
+        private void Info_NumberCard_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Введите информацию карты она состоит из 16 цифр \n" +
+                "При приоберетения неверного помещения мы не ненсем ни какой отвественности!");
+        }
+        private void Info_Tern_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Введите действительность карты! \n" +
+     "При приоберетения неверного помещения мы не ненсем ни какой отвественности!");
+        }
+        private void Info_FName_SName_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Введите свои инициалы \n" +
+    "При приоберетения неверного помещения мы не ненсем ни какой отвественности!");
+        }
+
+        private void Info_CVVKey_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Введите информацию карты она состоит из 3 цифр \n" +
+    "Не кому не разглошайте этот код!");
+        }
+    }
+
